@@ -27,7 +27,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/yaml"
 
 	v2 "github.com/fluxcd/helm-controller/api/v2beta1"
@@ -208,7 +207,7 @@ invalid`,
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := fake.NewFakeClientWithScheme(scheme, tt.resources...)
-			r := &HelmReleaseReconciler{Client: c, Log: log.NullLogger{}}
+			r := &HelmReleaseReconciler{Client: c}
 			var values *apiextensionsv1.JSON
 			if tt.values != "" {
 				v, _ := yaml.YAMLToJSON([]byte(tt.values))
